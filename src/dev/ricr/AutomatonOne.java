@@ -13,8 +13,10 @@ import java.util.Scanner;
  * including no O's in between.
  * <p>
  * Example: GLE and EXGGLLE would not be accepted but GOOGLE and GGLE would be.
+ * <p>
+ * So far there are two ways here, if statements and switch cases.
+ * Edit lines 35-36 to swap between methods.
  */
-
 public class AutomatonOne {
 
   private int currState = 1;
@@ -23,57 +25,117 @@ public class AutomatonOne {
   ArrayList<String> validWords = new ArrayList<>();
   ArrayList<String> nonValidWords = new ArrayList<>();
 
-  private void checkWords () {
-
+  /**
+   * Main Loop
+   */
+  private void mainLoop () {
     for (String word : wordsBuffer) {
       for (int i = 0; i < word.length(); i++) {
 
-        if (currState == 1) {
-          if (word.charAt(i) == 'G') {
-            increaseState();
-          }
-        } else if (currState == 2) {
-          if (word.charAt(i) == 'G') {
-            increaseState();
-          } else if (word.charAt(i) != 'O') {
-            returnToStart();
-          }
-        } else if (currState == 3) {
-          if (word.charAt(i) == 'O') {
-            decreaseState();
-          } else if (word.charAt(i) == 'E' || word.charAt(i) == 'X') {
-            returnToStart();
-          } else if (word.charAt(i) == 'L') {
-            increaseState();
-          }
-        } else if (currState == 4) {
-          if (word.charAt(i) == 'E') {
-            increaseState();
-          } else {
-            returnToStart();
-          }
-        }
-
+//        checkWordsIf(word.charAt(i));
+        checkWordsSwitch(word.charAt(i));
       }
 
       if (currState == 5) {
-//        System.out.println("Valid word!!!!");
         validWords.add(word);
       } else {
-//        System.out.println("Word not valid.... :(");
         nonValidWords.add(word);
       }
 
-      // reset the state after each word
       returnToStart();
     }
-
-    // print both list of words
-    System.out.println("Valid words: " + printValidWords());
-    System.out.println("Non valid words: " + printNonValidWords());
-
   }
 
+  /**
+   * For Loop Example
+   */
+  private void checkWordsIf (char next) {
+    if (currState == 1) {
+      if (next == 'G') {
+        increaseState();
+      }
+    } else if (currState == 2) {
+      if (next == 'G') {
+        increaseState();
+      } else if (next != 'O') {
+        returnToStart();
+      }
+    } else if (currState == 3) {
+      if (next == 'O') {
+        decreaseState();
+      } else if (next == 'E' || next == 'X') {
+        returnToStart();
+      } else if (next == 'L') {
+        increaseState();
+      }
+    } else if (currState == 4) {
+      if (next == 'E') {
+        increaseState();
+      } else {
+        returnToStart();
+      }
+    }
+  }
+
+
+  /**
+   * Switch Case Example
+   */
+  private void checkWordsSwitch (char next) {
+    switch (currState) {
+      case 1:
+        switch (next) {
+          case 'G':
+            increaseState();
+            break;
+        }
+        break;
+      case 2:
+        switch (next) {
+          case 'G':
+            increaseState();
+            break;
+          case 'O':
+            break;
+          default:
+            returnToStart();
+            break;
+        }
+        break;
+      case 3:
+        switch (next) {
+          case 'G':
+            break;
+          case 'O':
+            decreaseState();
+            break;
+          case 'L':
+            increaseState();
+            break;
+          default:
+            returnToStart();
+            break;
+        }
+        break;
+      case 4:
+        switch (next) {
+          case 'E':
+            increaseState();
+            break;
+          default:
+            returnToStart();
+            break;
+        }
+        break;
+      default:
+        //stay where it is
+    }
+  }
+
+
+  /**
+   * State Modifiers
+   */
   private void increaseState () {
     currState++;
   }
@@ -86,6 +148,10 @@ public class AutomatonOne {
     currState = 1;
   }
 
+
+  /**
+   * Final Lists
+   */
   private List<String> printValidWords () {
     return validWords;
   }
@@ -94,6 +160,10 @@ public class AutomatonOne {
     return nonValidWords;
   }
 
+
+  /**
+   * IO Helpers
+   */
   private void importFile () {
     File file = new File(System.getProperty("user.dir") + "/words.txt");
 
@@ -116,10 +186,19 @@ public class AutomatonOne {
     }
   }
 
+
+  /**
+   * Run It!!
+   */
   public static void main (String[] args) {
     AutomatonOne main = new AutomatonOne();
     main.importFile();
-    main.checkWords();
-  }
+//    main.checkWordsForLoop();
+//    main.checkWordsSwitch();
+    main.mainLoop();
 
+    // print both list of words
+    System.out.println("Valid words: " + main.printValidWords());
+    System.out.println("Non valid words: " + main.printNonValidWords());
+  }
 }
