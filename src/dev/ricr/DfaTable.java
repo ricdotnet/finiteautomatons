@@ -22,9 +22,6 @@ public class DfaTable {
     state = 0;
 
     for (int i = 0; i < word.length(); i++) {
-      if (word.charAt(i) == 'E')
-        state = delta[state][0];
-
       if (word.charAt(i) == 'G')
         state = delta[state][1];
 
@@ -32,10 +29,7 @@ public class DfaTable {
         state = delta[state][2];
 
       if (word.charAt(i) == 'E')
-        state = delta[state][3];
-
-      if (word.charAt(i) == 'X')
-        state = delta[state][4];
+        state = delta[state][0];
     }
 
     return (state == q5) ? "valid" : "not valid";
