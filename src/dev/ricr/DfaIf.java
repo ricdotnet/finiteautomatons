@@ -1,4 +1,4 @@
-package src.cw;
+package dev.ricr;
 
 public class DfaIf {
 

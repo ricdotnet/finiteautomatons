@@ -1,4 +1,4 @@
-package src.cw;
+package dev.ricr;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +42,9 @@ public class Run {
   DfaTable dfaTable = new DfaTable();
   DfaIf dfaIf = new DfaIf();
 
+  // Nfa example
+  NfaParallel nfaParallel = new NfaParallel();
+
   /**
    * IO Helpers
    */
@@ -67,7 +70,8 @@ public class Run {
       while (scanner.hasNextLine()) {
         String w = scanner.nextLine();
 //        String result = dfaTable.checkWord(w);
-        String result = dfaIf.checkWord(w);
+//        String result = dfaIf.checkWord(w);
+        String result = nfaParallel.checkWord(w);
 
         System.out.println(w + ": " + result);
       }
