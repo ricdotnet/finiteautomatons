@@ -70,9 +70,9 @@ public class Run {
       Scanner scanner = new Scanner(file);
       while (scanner.hasNextLine()) {
         String w = scanner.nextLine();
-//        String result = dfaTable.checkWord(w);
+        String result = dfaTable.checkWord(w);
 //        String result = dfaIf.checkWord(w);
-        String result = nfaParallel.checkWord(w);
+//        String result = nfaParallel.checkWord(w);
 //        String result = nfa.checkWord(w);
 
         System.out.println(w + ": " + result);
