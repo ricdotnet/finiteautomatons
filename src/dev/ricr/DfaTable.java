@@ -11,6 +11,7 @@ public class DfaTable {
   private final int q5 = 4;
 
   private final int[][] delta = {
+    // E   G   L   O   X
       {q1, q2, q1, q1, q1},
       {q1, q3, q1, q2, q1},
       {q1, q3, q4, q2, q1},
@@ -22,14 +23,25 @@ public class DfaTable {
     state = 0;
 
     for (int i = 0; i < word.length(); i++) {
-      if (word.charAt(i) == 'G')
+
+      if (state == q5) return "valid";
+
+      if (word.charAt(i) == 'G' && (state == q1 || state == q2))
         state = delta[state][1];
 
-      if (word.charAt(i) == 'L')
+      else if (word.charAt(i) == 'O') {
+        if (state == q2)
+          state = delta[state][3];
+      }
+
+      else if (word.charAt(i) == 'L' && state == q3)
         state = delta[state][2];
 
-      if (word.charAt(i) == 'E')
+      else if (word.charAt(i) == 'E' && state == q4)
         state = delta[state][0];
+
+      else
+        state = delta[0][0];
     }
 
     return (state == q5) ? "valid" : "not valid";
